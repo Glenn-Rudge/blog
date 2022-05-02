@@ -4,7 +4,8 @@
     use App\Http\Controllers\PostController;
     use App\Models\Post;
     use App\Models\Tag;
-    use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Route;
 
     Route::get('/', function () {
         return view('welcome', [
@@ -29,6 +30,11 @@
     Route::put("/posts/{post}", [PostController::class, "update"])->name("posts.update");
     Route::delete("/posts/{post}", [PostController::class, "destroy"])->name("posts.delete");
     Route::post("/comments/", [CommentController::class, "store"])->name("comments.store");
+
+    // Artisan Commands
+    Route::get("/storage-link/", function () {
+        Artisan::call("storage:link");
+    });
 
     require __DIR__ . '/auth.php';
 //
