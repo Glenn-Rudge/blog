@@ -77,9 +77,9 @@
 
         public function destroy (Post $post, Request $request)
         {
-            $post->delete();
+            $post->image()->delete();
 
-            $request->session()->flash("status", "{$post->title}  deleted successfully");
+            $post->delete();
 
             return redirect("dashboard");
         }
