@@ -16,7 +16,7 @@ return new class extends Migration
 
         Schema::table("images", function (Blueprint $table) {
             $table->unsignedBigInteger("post_id")->nullable();
-            $table->foreign("post_id")->references("id")->on("posts");
+            $table->foreign("post_id")->references("id")->on("posts")->onDelete("CASCADE");
         });
     }
 
