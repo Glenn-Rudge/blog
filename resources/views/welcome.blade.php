@@ -91,7 +91,9 @@
                 <div>
                     @if(isset($post->image->path))
                         <div>
-                            <p>{{ __($post->image()->url()) }}</p>
+                            <p>
+                                <?php echo $post->image->url() ;?>
+                            </p>
                             <img src="{{ $post->image->url() }}" class="object-cover h-48 w-full">
                         </div>
                     @endif
