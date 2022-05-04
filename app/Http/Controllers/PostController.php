@@ -34,7 +34,8 @@
                     );
                 }
 
-                return view("dashboard", ["posts" => Post::orderBy("created_at", "DESC")->paginate(5)]);
+                // return view("dashboard", ["posts" => Post::orderBy("created_at", "DESC")->paginate(5)]);
+                return redirect()->route("dashboard", ["posts" => Post::orderBy("created_at", "DESC")->paginate(5)]);
             }
         }
 
