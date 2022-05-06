@@ -91,7 +91,7 @@
                 <div>
                     @if(isset($post->image->path))
                         <div>
-                            <img src="{{ $post->image->url() }}" class="object-cover h-48 w-full">
+                            <img src="{{ $post->image->url() }}" class="object-cover h-50 w-full">
                         </div>
                     @endif
                 </div>
