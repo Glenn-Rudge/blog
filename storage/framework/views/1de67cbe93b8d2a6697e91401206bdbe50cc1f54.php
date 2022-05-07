@@ -1,0 +1,1 @@
+<h1><?php echo e($exception->getMessage()); ?></h1><?php /**PATH /var/www/html/resources/views/errors/404.blade.php ENDPATH**/ ?>

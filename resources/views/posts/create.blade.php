@@ -67,14 +67,36 @@
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="Content">
                         Content
                     </label>
-                    <textarea placeholder="Content" name="content" id="content" class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">{{old('content')}}</textarea>
+                    <div class="my-5" id="toolbar-container"></div>
+                <!-- <div id="editor">
+                    <input 
+                        name="content" 
+                        id="ckeditor" 
+                        class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                    >{{old('content')}}
+                    </input>
+                    </div> -->
+                    <textarea name="content" class="ckeditor form-control" name="wysiwyg-editor">{{ old('content') }}</textarea>
                 </div>
                 <div class="flex items-center justify-between">
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                    <button 
+                    type="submit" 
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    >
                         Create
                     </button>
                 </div>
             </form>
         </div>
     </div>
+    
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>    
+<script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.ckeditor').ckeditor();
+    });
+</script>
 </x-app-layout>

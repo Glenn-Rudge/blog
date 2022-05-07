@@ -45,7 +45,7 @@
 
             <!--Lead Para-->
             <p class="py-6">
-                {{ $post->content }}
+                {!! $post->content !!}
             </p>
 
             <!--/ Post Content-->

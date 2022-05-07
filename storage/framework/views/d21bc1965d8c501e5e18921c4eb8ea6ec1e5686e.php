@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title>{{ config('app.name') }}</title>
+    <title><?php echo e(config('app.name')); ?></title>
     <meta name="author" content="name"/>
     <meta name="description" content="description here"/>
     <meta name="keywords" content="keywords,here"/>
@@ -16,22 +16,22 @@
 <body class="bg-gray-100 font-sans leading-normal tracking-normal">
 
 <nav id="header" class="fixed w-full z-10 top-0">
-    @if (Route::has('login'))
+    <?php if(Route::has('login')): ?>
         <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
-            @auth
-                @if(Auth::user()->isAdmin)
-                <a href="{{ url('/dashboard') }}"
+            <?php if(auth()->guard()->check()): ?>
+                <?php if(Auth::user()->isAdmin): ?>
+                <a href="<?php echo e(url('/dashboard')); ?>"
                    class="text-sm text-gray-700 dark:text-gray-500 underline">Dashboard</a>
-                @endif
-            @else
-                <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
+                <?php endif; ?>
+            <?php else: ?>
+                <a href="<?php echo e(route('login')); ?>" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
 
-                @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
-                @endif
-            @endauth
+                <?php if(Route::has('register')): ?>
+                    <a href="<?php echo e(route('register')); ?>" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
+                <?php endif; ?>
+            <?php endif; ?>
         </div>
-    @endif
+    <?php endif; ?>
 
     <div id="progress" class="h-1 z-20 top-0"
          style="background:linear-gradient(to right, #4dc0b5 var(--scroll), transparent 0);"></div>
@@ -40,7 +40,8 @@
 
         <div class="pl-4">
             <a class="text-gray-900 text-base no-underline hover:no-underline font-extrabold text-xl" href="#">
-                {{ config("app.name") }}
+                <?php echo e(config("app.name")); ?>
+
             </a>
         </div>
 
@@ -78,26 +79,27 @@
 </nav>
 
 <!--Container-->
-@foreach($posts as $post)
+<?php $__currentLoopData = $posts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $post): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
     <div class="container w-full md:max-w-3xl mx-auto pt-20">
 
         <div class="w-full px-4 md:px-6 text-xl text-gray-800 leading-normal" style="font-family:Georgia,serif;">
 
             <!--Title-->
             <div class="font-sans">
-                {{ $posts->links() }}
+                <?php echo e($posts->links()); ?>
+
                 <h1 class="font-bold font-sans break-normal text-gray-900 pt-6 pb-2 text-3xl md:text-4xl">
-                    <a href="{{ route('posts.show', $post->id) }}">{{ $post->title }}</a>
+                    <a href="<?php echo e(route('posts.show', $post->id)); ?>"><?php echo e($post->title); ?></a>
                 </h1>
-                <p class="text-sm md:text-base font-normal text-gray-600">{{ $post->created_at->diffForHumans() }}</p>
+                <p class="text-sm md:text-base font-normal text-gray-600"><?php echo e($post->created_at->diffForHumans()); ?></p>
                 <div>
-                    @if(isset($post->image->path))
+                    <?php if(isset($post->image->path)): ?>
                         <div>
-                            <a href="{{ route('posts.show', $post->id) }}">
-                                <img src="{{ $post->image->url() }}" class="object-cover h-50 w-full" style="width:fi">
+                            <a href="<?php echo e(route('posts.show', $post->id)); ?>">
+                                <img src="<?php echo e($post->image->url()); ?>" class="object-cover h-50 w-full" style="width:fi">
                              <a/>   
                         </div>
-                    @endif
+                    <?php endif; ?>
                 </div>
             </div>
 
@@ -107,7 +109,8 @@
 
             <!--Lead Para-->
             <p class="py-6">
-                {!! $post->content !!}
+                <?php echo $post->content; ?>
+
             </p>
 
             <!--/ Post Content-->
@@ -117,11 +120,12 @@
         <!--Tags -->
         <div class="text-base md:text-sm text-gray-500 px-4 py-6">
             Tags:
-            @foreach($post->tags as $tag)
+            <?php $__currentLoopData = $post->tags; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tag): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <a href="#" class="text-base md:text-sm text-green-500 no-underline hover:underline">
-                    {{ $tag->name }}
+                    <?php echo e($tag->name); ?>
+
                 </a>
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
         </div>
 
@@ -156,7 +160,7 @@
             <img class="w-10 h-10 rounded-full mr-4" src="http://i.pravatar.cc/300" alt="Avatar of Author">
             <div class="flex-1 px-2">
                 <p class="text-base font-bold text-base md:text-xl leading-none mb-2">Jo Bloggerson</p>
-                <p class="text-gray-600 text-xs md:text-base">{{ config("app.name") }} <a
+                <p class="text-gray-600 text-xs md:text-base"><?php echo e(config("app.name")); ?> <a
                         class="text-green-500 no-underline hover:underline"
                         href="https://www.tailwindtoolbox.com">link</a></p>
             </div>
@@ -171,10 +175,11 @@
 
         <!--Divider-->
         <hr class="border-b-2 border-gray-400 mb-8 mx-4">
-        @endforeach
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         <div class="text-right">
 				<span class="text-xs md:text-sm font-normal text-gray-600">
-                    {{ $posts->links() }}
+                    <?php echo e($posts->links()); ?>
+
                 </span><br>
         </div>
 
@@ -269,3 +274,4 @@
 </body>
 
 </html>
+<?php /**PATH /var/www/html/resources/views/welcome.blade.php ENDPATH**/ ?>
