@@ -95,7 +95,7 @@
                         <div>
                             <a href="{{ route('posts.show', $post->id) }}">
                                 <img src="{{ $post->image->url() }}" class="object-cover h-50 w-full" style="width:fi">
-                             <a/>   
+                             <a/>
                         </div>
                     @endif
                 </div>

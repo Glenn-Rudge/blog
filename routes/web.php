@@ -2,21 +2,22 @@
 
     use App\Http\Controllers\CommentController;
     use App\Http\Controllers\PostController;
+    use App\Http\Controllers\PostTagController;
     use App\Models\Post;
     use App\Models\Tag;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Route;
+    use Illuminate\Support\Facades\Artisan;
+    use Illuminate\Support\Facades\Route;
 
     Route::get("/", function () {
         return view("welcome", [
-            "posts" => Post::with("comments")
-                ->orderBy("created_at", "DESC")
-                ->paginate(5),
-                "tags" => Tag::all()
+                "posts" => Post::with("comments")
+                    ->with("tags")
+                    ->orderBy("created_at", "DESC")
+                    ->paginate(5)
             ]
         );
     });
-
+//Post::latest()->withCount("comments")->with("user")->get();
     Route::get("/dashboard", function () {
         return view("dashboard", ["posts" => Post::orderBy("created_at")->paginate(5)]);
     })->middleware(["admin"])->name("dashboard");
@@ -29,10 +30,11 @@ use Illuminate\Support\Facades\Route;
     Route::put("/posts/update/{post}", [PostController::class, "update"])->name("posts.update");
     Route::put("/posts/{post}", [PostController::class, "update"])->name("posts.update");
     Route::delete("/posts/{post}", [PostController::class, "destroy"])->name("posts.delete");
+    Route::get("/posts/tag/{id}", [PostTagController::class, "index"])->name("posts.tags.index");
     Route::post("/comments/", [CommentController::class, "store"])->name("comments.store");
 
     require __DIR__ . "/auth.php";
-//
+    //
     //    TODO:// Add tags to post
     //    TODO:// Add profile picture to user profile.
     //    TODO:// return user specific posts on dashboard.

@@ -97,7 +97,7 @@
                         <div>
                             <a href="<?php echo e(route('posts.show', $post->id)); ?>">
                                 <img src="<?php echo e($post->image->url()); ?>" class="object-cover h-50 w-full" style="width:fi">
-                             <a/>   
+                             <a/>
                         </div>
                     <?php endif; ?>
                 </div>
