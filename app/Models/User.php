@@ -15,18 +15,19 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        "name",
+        "email",
+        "password",
     ];
 
     protected $hidden = [
-        'password',
-        'remember_token',
+        "password",
+        "remember_token",
     ];
 
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        "email_verified_at" => "datetime",
+        "isAdmin" => "boolean",
     ];
 
     public function posts(): HasMany
@@ -39,7 +40,7 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
-    public function isAdmin()
+    public function isAdmin(): bool
     {
         return $this->isAdmin;
     }

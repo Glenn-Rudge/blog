@@ -1,14 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+    namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use phpDocumentor\Reflection\DocBlock\Tag;
+    use Illuminate\Http\Request;
+    use App\Models\Tag;
 
-class PostTagController extends Controller
-{
-    public function index($tag)
+    class PostTagController extends Controller
     {
-        $tag = Tag::findOrFail($tag);
+        public function index ($tag)
+        {
+            return view("welcome", ["posts" => Tag::findOrFail($tag)->posts()
+                ->withCount('comments')
+                ->with('user')
+                ->with('tags')
+                ->latest()->get()]);
+        }
     }
-}

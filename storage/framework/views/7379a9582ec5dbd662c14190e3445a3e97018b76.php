@@ -1,16 +1,25 @@
-<x-app-layout>
-    <x-slot name="header">
+<?php if (isset($component)) { $__componentOriginal8e2ce59650f81721f93fef32250174d77c3531da = $component; } ?>
+<?php $component = $__env->getContainer()->make(App\View\Components\AppLayout::class, [] + (isset($attributes) ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('app-layout'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $constructor = (new ReflectionClass(App\View\Components\AppLayout::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
+     <?php $__env->slot('header', null, []); ?> 
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+            <?php echo e(__('Dashboard')); ?>
+
         </h2>
-    </x-slot>
+     <?php $__env->endSlot(); ?>
     <div class="container w-full md:max-w-3xl mx-auto pt-20">
         <!--Author-->
         <div class="flex w-full items-center font-sans px-4 py-12">
             <img class="w-10 h-10 rounded-full mr-4" src="http://i.pravatar.cc/300" alt="Avatar of Author">
             <div class="flex-1 px-2">
                 <p class="text-base font-bold text-base md:text-xl leading-none mb-2">Jo Bloggerson</p>
-                <p class="text-gray-600 text-xs md:text-base">{{ config("app.name") }} <a
+                <p class="text-gray-600 text-xs md:text-base"><?php echo e(config("app.name")); ?> <a
                         class="text-green-500 no-underline hover:underline"
                         href="https://www.tailwindtoolbox.com">link</a></p>
             </div>
@@ -27,15 +36,15 @@
             <!--Title-->
             <div class="font-sans">
                 <h1 class="font-bold font-sans break-normal text-gray-900 pt-6 pb-2 text-3xl md:text-4xl">
-                    <a href="{{ route('posts.show', $post) }}">{{ $post->title }}</a>
+                    <a href="<?php echo e(route('posts.show', $post)); ?>"><?php echo e($post->title); ?></a>
                 </h1>
-                <p class="text-sm md:text-base font-normal text-gray-600">{{ $post->created_at->diffForHumans() }}</p>
+                <p class="text-sm md:text-base font-normal text-gray-600"><?php echo e($post->created_at->diffForHumans()); ?></p>
                 <div>
-                    @if(isset($post->image->path))
+                    <?php if(isset($post->image->path)): ?>
                         <div>
-                            <img src="{{ $post->image->url() }}" class="object-cover h-48 w-full">
+                            <img src="<?php echo e($post->image->url()); ?>" class="object-cover h-48 w-full">
                         </div>
-                    @endif
+                    <?php endif; ?>
                 </div>
             </div>
 
@@ -45,7 +54,8 @@
 
             <!--Lead Para-->
             <p class="py-6">
-                {!! $post->content !!}
+                <?php echo $post->content; ?>
+
             </p>
 
             <!--/ Post Content-->
@@ -55,34 +65,37 @@
         <!--Tags -->
         <div class="text-base md:text-sm text-gray-500 px-4 py-6">
             Tags:
-            @foreach($post->tags as $tag)
-                <a href="{{ route("posts.tags.index", $tag->id) }}"
+            <?php $__currentLoopData = $post->tags; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tag): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <a href="<?php echo e(route("posts.tags.index", $tag->id)); ?>"
                    class="text-base md:text-sm text-green-500 no-underline hover:underline">
-                    {{ $tag->name }}
+                    <?php echo e($tag->name); ?>
+
                 </a>
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>
         <!--Divider-->
         <hr class="border-b-2 border-gray-400 mb-8 mx-4">
 
         <!--Comments -->
         <div class="mt-5 text-base md:text-sm text-gray-500 px-4 py-6 flex flex-col-reverse">
-            @if(Auth::check())
+            <?php if(Auth::check()): ?>
                 <p class="pt-5">Comments:</p>
-                @if(isset($post->comments))
-                    @foreach($post->comments as $comment)
+                <?php if(isset($post->comments)): ?>
+                    <?php $__currentLoopData = $post->comments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $comment): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <div class="mt-5 rounded overflow-hidden shadow-lg">
                             <div class="px-6 py-4">
-                                {{ $comment->created_at->diffForHumans() }}
-                                <div class="font-bold text-xl mb-2">{{ $comment->user->name }}</div>
+                                <?php echo e($comment->created_at->diffForHumans()); ?>
+
+                                <div class="font-bold text-xl mb-2"><?php echo e($comment->user->name); ?></div>
                                 <p class="text-gray-700 text-base">
-                                    {{ $comment->content }}
+                                    <?php echo e($comment->content); ?>
+
                                 </p>
                             </div>
                         </div>
-                    @endforeach
-                @endif
-            @else
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                <?php endif; ?>
+            <?php else: ?>
                 <div class="bg-green-600 text-center py-4 lg:px-4">
                     <div
                         class="p-2 bg-greeb-800 items-center text-green-100 leading-none lg:rounded-full flex lg:inline-flex"
@@ -100,7 +113,7 @@
                         </svg>
                     </div>
                 </div>
-            @endif
+            <?php endif; ?>
         </div>
 
         <!--Divider-->
@@ -108,25 +121,25 @@
 
         <!--Tags -->
         <div class="text-base md:text-sm text-gray-500 px-4 py-6">
-            @if(Auth::check())
+            <?php if(Auth::check()): ?>
                 <form action="/comments" method="POST" class="w-full p-4">
-                    @csrf
+                    <?php echo csrf_field(); ?>
                     <div class="mb-2">
                         <label for="comment" class="text-lg text-gray-600">Add a comment</label>
-                        @if ($errors->any())
-                            @foreach($errors->all() as $error)
+                        <?php if($errors->any()): ?>
+                            <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div
                                     class="m-5 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
                                     role="alert">
-                                    <span class="block sm:inline">{{ $error }}</span>
+                                    <span class="block sm:inline"><?php echo e($error); ?></span>
                                     <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
                             <svg class="fill-current h-6 w-6 text-red-500" role="button"
                                  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path
                                     d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
                         </span>
                                 </div>
-                            @endforeach
-                        @endif
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        <?php endif; ?>
                         <textarea
                             class="w-full h-20 p-2 border rounded focus:outline-none focus:ring-gray-300 focus:ring-1"
                             name="content"></textarea>
@@ -136,9 +149,9 @@
                         class="px-3 py-2 text-sm text-blue-100 bg-blue-600 rounded">
                         Comment
                     </button>
-                    <input type="hidden" name="post_id" id="post_id" value="{{ $post->id }}"/>
+                    <input type="hidden" name="post_id" id="post_id" value="<?php echo e($post->id); ?>"/>
                 </form>
-            @else
+            <?php else: ?>
                 <div class="bg-green-600 text-center py-4 lg:px-4">
                     <div
                         class="p-2 bg-white items-center text-black leading-none lg:rounded-full flex lg:inline-flex"
@@ -157,9 +170,9 @@
                         </svg>
                     </div>
                 </div>
-            @endif
+            <?php endif; ?>
         </div>
-    {{--TODO:// Add comment pagination to post show page.--}}
+    
     <!--Divider-->
         <hr class="border-b-2 border-gray-400 mb-8 mx-4">
 
@@ -193,4 +206,10 @@
     </div>
     { $post }}
 
-</x-app-layout>
+ <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal8e2ce59650f81721f93fef32250174d77c3531da)): ?>
+<?php $component = $__componentOriginal8e2ce59650f81721f93fef32250174d77c3531da; ?>
+<?php unset($__componentOriginal8e2ce59650f81721f93fef32250174d77c3531da); ?>
+<?php endif; ?>
+<?php /**PATH /var/www/html/resources/views/posts/show.blade.php ENDPATH**/ ?>

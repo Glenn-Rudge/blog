@@ -4,23 +4,25 @@
     use App\Http\Controllers\PostController;
     use App\Http\Controllers\PostTagController;
     use App\Models\Post;
-    use App\Models\Tag;
-    use Illuminate\Support\Facades\Artisan;
     use Illuminate\Support\Facades\Route;
+    use Illuminate\Support\Facades\Auth;
+    use App\Http\Controllers\ProfileController;
 
     Route::get("/", function () {
         return view("welcome", [
                 "posts" => Post::with("comments")
                     ->with("tags")
                     ->orderBy("created_at", "DESC")
-                    ->paginate(5)
+                    ->paginate(5),
+                "user" => Auth::user(),
             ]
         );
-    });
+    })->name("welcome");
 //Post::latest()->withCount("comments")->with("user")->get();
     Route::get("/dashboard", function () {
         return view("dashboard", ["posts" => Post::orderBy("created_at")->paginate(5)]);
     })->middleware(["admin"])->name("dashboard");
+
 
     Route::get("/posts", [PostController::class, "index"]);
     Route::get("/posts/create", [PostController::class, "create"])->name("posts.create");
@@ -30,8 +32,11 @@
     Route::put("/posts/update/{post}", [PostController::class, "update"])->name("posts.update");
     Route::put("/posts/{post}", [PostController::class, "update"])->name("posts.update");
     Route::delete("/posts/{post}", [PostController::class, "destroy"])->name("posts.delete");
-    Route::get("/posts/tag/{id}", [PostTagController::class, "index"])->name("posts.tags.index");
-    Route::post("/comments/", [CommentController::class, "store"])->name("comments.store");
+    Route::get("/posts/tag/{tag}", [PostTagController::class, "index"])->name("posts.tags.index");
+
+    Route::post("/comments", [CommentController::class, "store"])->name("comments.store");
+
+    Route::get("/profile", [ProfileController::class, "index"])->name("users.profile");
 
     require __DIR__ . "/auth.php";
     //

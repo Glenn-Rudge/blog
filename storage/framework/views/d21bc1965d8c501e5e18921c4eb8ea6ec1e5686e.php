@@ -19,9 +19,9 @@
     <?php if(Route::has('login')): ?>
         <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
             <?php if(auth()->guard()->check()): ?>
-                <?php if(Auth::user()->isAdmin): ?>
-                <a href="<?php echo e(url('/dashboard')); ?>"
-                   class="text-sm text-gray-700 dark:text-gray-500 underline">Dashboard</a>
+                <?php if(Auth::user()->isAdmin()): ?>
+                    <a href="<?php echo e(url('/dashboard')); ?>"
+                       class="text-sm text-gray-700 dark:text-gray-500 underline">Dashboard</a>
                 <?php endif; ?>
             <?php else: ?>
                 <a href="<?php echo e(route('login')); ?>" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
@@ -83,11 +83,9 @@
     <div class="container w-full md:max-w-3xl mx-auto pt-20">
 
         <div class="w-full px-4 md:px-6 text-xl text-gray-800 leading-normal" style="font-family:Georgia,serif;">
-
             <!--Title-->
             <div class="font-sans">
-                <?php echo e($posts->links()); ?>
-
+                
                 <h1 class="font-bold font-sans break-normal text-gray-900 pt-6 pb-2 text-3xl md:text-4xl">
                     <a href="<?php echo e(route('posts.show', $post->id)); ?>"><?php echo e($post->title); ?></a>
                 </h1>
@@ -97,7 +95,7 @@
                         <div>
                             <a href="<?php echo e(route('posts.show', $post->id)); ?>">
                                 <img src="<?php echo e($post->image->url()); ?>" class="object-cover h-50 w-full" style="width:fi">
-                             <a/>
+                                <a/>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -109,11 +107,30 @@
 
             <!--Lead Para-->
             <p class="py-6">
-                <?php echo $post->content; ?>
+
+                <?php echo Str::limit($post->content, 175, "..."); ?>
 
             </p>
 
             <!--/ Post Content-->
+            <!--Author-->
+            <div class="flex w-full items-center font-sans px-4 py-12">
+                <img class="w-10 h-10 rounded-full mr-4" src="http://i.pravatar.cc/300" alt="Avatar of Author">
+                <div class="flex-1 px-2">
+                    <p class="text-base font-bold text-base md:text-xl leading-none mb-2">Jo Bloggerson</p>
+                    <p class="text-gray-600 text-xs md:text-base"><?php echo e(config("app.name")); ?> <a
+                            class="text-green-500 no-underline hover:underline"
+                            href="https://www.tailwindtoolbox.com">link</a></p>
+                </div>
+                <div class="justify-end">
+                    <a
+                        href="<?php echo e(route('posts.show', $post->id)); ?>"
+                        class="bg-transparent border border-gray-500 hover:border-green-500 text-xs text-gray-500 hover:text-green-500 font-bold py-2 px-4 rounded-full">
+                        Read More
+                    </a>
+                </div>
+            </div>
+            <!--/Author-->
 
         </div>
 
@@ -121,7 +138,8 @@
         <div class="text-base md:text-sm text-gray-500 px-4 py-6">
             Tags:
             <?php $__currentLoopData = $post->tags; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tag): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <a href="#" class="text-base md:text-sm text-green-500 no-underline hover:underline">
+                <a href="<?php echo e(route("posts.tags.index", $tag->id)); ?>"
+                   class="text-base md:text-sm text-green-500 no-underline hover:underline">
                     <?php echo e($tag->name); ?>
 
                 </a>
@@ -154,31 +172,11 @@
         </div>
         <!-- /Subscribe-->
 
-
-        <!--Author-->
-        <div class="flex w-full items-center font-sans px-4 py-12">
-            <img class="w-10 h-10 rounded-full mr-4" src="http://i.pravatar.cc/300" alt="Avatar of Author">
-            <div class="flex-1 px-2">
-                <p class="text-base font-bold text-base md:text-xl leading-none mb-2">Jo Bloggerson</p>
-                <p class="text-gray-600 text-xs md:text-base"><?php echo e(config("app.name")); ?> <a
-                        class="text-green-500 no-underline hover:underline"
-                        href="https://www.tailwindtoolbox.com">link</a></p>
-            </div>
-            <div class="justify-end">
-                <button
-                    class="bg-transparent border border-gray-500 hover:border-green-500 text-xs text-gray-500 hover:text-green-500 font-bold py-2 px-4 rounded-full">
-                    Read More
-                </button>
-            </div>
-        </div>
-        <!--/Author-->
-
         <!--Divider-->
         <hr class="border-b-2 border-gray-400 mb-8 mx-4">
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         <div class="text-right">
 				<span class="text-xs md:text-sm font-normal text-gray-600">
-                    <?php echo e($posts->links()); ?>
 
                 </span><br>
         </div>
